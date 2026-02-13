@@ -4,8 +4,11 @@ import { router } from '../router.js';
 export function homeScreen(el) {
   const age = state.get().age;
 
+  const muted = state.get().muted;
+
   el.innerHTML = `
     <div class="screen home">
+      <button class="btn btn-mute" id="btn-mute">${muted ? '🔇' : '🔊'}</button>
       <div class="owl">🦉</div>
       <h1 class="title">Совёнок</h1>
       <p class="subtitle">Учимся играя!</p>
@@ -34,6 +37,11 @@ export function homeScreen(el) {
       btn.classList.add('active');
       el.querySelector('#btn-play').disabled = false;
     });
+  });
+
+  el.querySelector('#btn-mute').addEventListener('click', () => {
+    state.toggleMute();
+    el.querySelector('#btn-mute').textContent = state.get().muted ? '🔇' : '🔊';
   });
 
   el.querySelector('#btn-play').addEventListener('click', () => {

@@ -1,3 +1,5 @@
+import { state } from './state.js';
+
 let ctx = null;
 
 function getContext() {
@@ -8,6 +10,7 @@ function getContext() {
 }
 
 function playTone(frequency, duration, type = 'sine') {
+  if (state.get().muted) return;
   const c = getContext();
   const osc = c.createOscillator();
   const gain = c.createGain();

@@ -443,6 +443,24 @@ body {
 }
 
 /* Reset progress button — small, subtle, pinned to bottom */
+.btn-mute {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  opacity: 0.6;
+  transition: opacity var(--transition-normal);
+  z-index: 10;
+}
+
+.btn-mute:active {
+  opacity: 1;
+}
+
 .btn-reset {
   background: none;
   border: none;

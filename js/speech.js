@@ -1,3 +1,5 @@
+import { state } from './state.js';
+
 let voiceReady = false;
 let russianVoice = null;
 
@@ -16,6 +18,7 @@ if (typeof speechSynthesis !== 'undefined') {
 export const speech = {
   speak(text) {
     if (typeof speechSynthesis === 'undefined') return;
+    if (state.get().muted) return;
 
     // Strip emoji for cleaner pronunciation
     const clean = text.replace(/[\u{1F000}-\u{1FFFF}]|[\u{2600}-\u{27BF}]|[\u{FE00}-\u{FEFF}]|[\u{1F900}-\u{1F9FF}]|[❓❌✅⬜🔺]/gu, '').trim();

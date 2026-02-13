@@ -3,6 +3,7 @@ const STORAGE_KEY = 'owl-kids-progress';
 const defaultState = {
   age: 0,        // 0 = not selected, 1 = 3-4yo, 2 = 5-6yo
   stars: 0,
+  muted: false,
   topics: {},
   story: { chapter: 1, point: 0 }
 };
@@ -66,6 +67,12 @@ export const state = {
     if (correct >= 4) return 2;
     if (correct <= 1) return 1;
     return this.get().age || 1;
+  },
+
+  toggleMute() {
+    this.get().muted = !this.get().muted;
+    this.save();
+    return this.get().muted;
   },
 
   reset() {
