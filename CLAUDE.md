@@ -10,8 +10,9 @@ Sovyonok (Совёнок) — a static SPA for teaching preschoolers (3-6 years)
 - CSS custom properties for theming
 - Hash-based SPA router (`#/path`)
 - localStorage for state persistence
-- Web Audio API for sound effects
-- Web Speech API for Russian TTS
+- Pre-recorded WAV speech files for task questions (Edge TTS, Svetlana voice)
+- Web Speech API as TTS fallback (Russian)
+- WAV sound effects with HTML5 Audio pool for mobile compatibility
 - No dependencies, no build step
 
 ## Key Architecture
@@ -33,7 +34,7 @@ Sovyonok (Совёнок) — a static SPA for teaching preschoolers (3-6 years)
 ## Content Format
 
 Tasks in `data/levels/*.json`. Each task has:
-- `question` — text only (read aloud by TTS)
+- `question` — text only (read aloud via WAV file `assets/speech/{id}.wav`, TTS fallback)
 - `image` — optional visual part (emoji), displayed separately below question
 - `type` — one of: `choice`, `sequence`, `drag-drop`, `match`
 - `difficulty` — 1 (easy, 3-4yo) or 2 (harder, 5-6yo)

@@ -10,8 +10,8 @@ Interactive web app for teaching preschoolers (ages 3-6). Math, literacy, logic,
 - **4 game types**: Multiple choice, Sequence ordering, Drag-and-drop, Match pairs
 - **2 modes**: Free play (pick any topic) + Story adventure (guided by Sovyonok the owl)
 - **Adaptive difficulty**: Auto-adjusts based on last 5 answers (easy for 3-4yo, harder for 5-6yo)
-- **Text-to-Speech**: Questions read aloud in Russian via Web Speech API
-- **Sound effects**: Generated with Web Audio API (no audio files)
+- **Voice-over**: Pre-recorded WAV speech for all 50 questions (Edge TTS, Svetlana voice), with Web Speech API fallback
+- **Sound effects**: WAV files (xylophone, sparkle, bell harmonics)
 - **Progress tracking**: Stars, completed tasks, story chapters — saved in localStorage
 - **No backend, no registration**: Open and play instantly
 
@@ -39,8 +39,8 @@ js/
   router.js             Hash-based SPA router
   state.js              localStorage progress tracking
   engine.js             Game engine (loads JSON tasks, delegates to renderers)
-  sounds.js             Web Audio API sound effects
-  speech.js             Text-to-Speech wrapper (Russian)
+  sounds.js             Sound effects (WAV audio pool, mobile unlock)
+  speech.js             Speech: WAV playback + TTS fallback (Russian)
   screens/
     home.js             Home screen (age selection)
     mode.js             Mode selection (adventure / free play)
@@ -61,6 +61,9 @@ data/
     logic.json          8 tasks
     world.json          8 tasks
     attention.json      6 tasks
+assets/
+  sounds/               Sound effects (correct, wrong, click, star)
+  speech/               Pre-recorded question audio (m1.wav, l1.wav, etc.)
 ```
 
 ## Adding Content
@@ -80,3 +83,5 @@ Add a new task by appending an object to any `data/levels/*.json` file:
 ```
 
 Supported types: `choice`, `sequence`, `drag-drop`, `match`. No code changes needed.
+
+To add voice-over for a new task, generate a WAV file named `{task-id}.wav` in `assets/speech/`. If no WAV file exists, the app falls back to Web Speech API.
