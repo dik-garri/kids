@@ -46,6 +46,10 @@ python3 -m http.server 8000
 # Open http://localhost:8000
 ```
 
+## Important Rules
+
+- **When adding or changing tasks**: ALWAYS generate WAV speech files for new/changed questions. Use Edge TTS (voice `ru-RU-SvetlanaNeural`, rate `-10%`), convert to WAV (22050 Hz, mono, 16-bit), save to `assets/speech/{task-id}.wav`.
+
 ## Language
 
 - UI and content are in Russian
