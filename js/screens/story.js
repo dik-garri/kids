@@ -1,6 +1,7 @@
 import { router } from '../router.js';
 import { state } from '../state.js';
 import { engine } from '../engine.js';
+import { speech } from '../speech.js';
 
 let storyData = null;
 
@@ -83,6 +84,8 @@ function showDialogue(el, data, chapter, progress, point) {
     </div>
   `;
 
+  speech.speak(point.dialogue);
+
   el.querySelector('#btn-continue').addEventListener('click', () => {
     if (point.task) {
       showTask(el, data, chapter, progress, point);
@@ -120,6 +123,7 @@ async function showTask(el, data, chapter, progress, point) {
       ? '<div class="owl">🦉</div><p>Правильно!</p>'
       : '<div class="owl">🦉</div><p>Попробуй ещё!</p>';
     gameArea.appendChild(feedback);
+    speech.speak(correct ? 'Правильно! Молодец!' : 'Попробуй ещё!');
 
     setTimeout(() => {
       if (correct) {

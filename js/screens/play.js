@@ -1,6 +1,7 @@
 import { router } from '../router.js';
 import { state } from '../state.js';
 import { engine } from '../engine.js';
+import { speech } from '../speech.js';
 
 export async function playScreen(el, params) {
   const topicId = params.topic;
@@ -43,6 +44,7 @@ export async function playScreen(el, params) {
         ? '<div class="owl">🦉</div><p>Правильно!</p>'
         : '<div class="owl">🦉</div><p>Попробуй ещё!</p>';
       gameArea.appendChild(feedback);
+      speech.speak(correct ? 'Правильно! Молодец!' : 'Попробуй ещё!');
 
       setTimeout(() => loadNext(), 1500);
     });
