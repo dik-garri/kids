@@ -1,3 +1,5 @@
+import { sounds } from '../sounds.js';
+
 export function renderChoice(el, task, onAnswer) {
   el.innerHTML = `
     <div class="game choice">
@@ -21,8 +23,10 @@ export function renderChoice(el, task, onAnswer) {
 
       if (correct) {
         btn.classList.add('correct');
+        sounds.correct();
       } else {
         btn.classList.add('wrong');
+        sounds.wrong();
         // Highlight the correct answer
         el.querySelectorAll('.btn-option').forEach(b => {
           if (task.options[Number(b.dataset.index)] === task.answer) {
