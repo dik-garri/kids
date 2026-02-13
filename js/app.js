@@ -2,10 +2,12 @@
 
 import { router } from './router.js';
 import { homeScreen } from './screens/home.js';
+import { modeScreen } from './screens/mode.js';
 import { state } from './state.js';
 
 state.load();
 router.add('/', homeScreen);
+router.add('/mode', modeScreen);
 
 document.addEventListener('DOMContentLoaded', () => {
   router.init();

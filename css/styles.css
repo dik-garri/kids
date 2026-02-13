@@ -454,6 +454,74 @@ body {
 }
 
 /* ========================================================
+   Mode Selection Screen
+   ======================================================== */
+
+/* Mode screen layout */
+.mode {
+  gap: var(--gap-lg);
+}
+
+/* Card container — column on mobile, row on wider screens */
+.mode-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap);
+  width: 100%;
+  max-width: 500px;
+  padding: 0 var(--padding);
+}
+
+/* Mode cards — large, generous padding */
+.mode-cards .card {
+  width: 100%;
+  min-height: 150px;
+  padding: 1.5rem var(--padding);
+  gap: 0.5rem;
+}
+
+/* Card icon — large emoji */
+.card-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+/* Card title — bold label */
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* Card description — smaller, lighter */
+.card-desc {
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  color: var(--color-text-light);
+}
+
+/* Story card — warm tint */
+.card-story {
+  background: #FFF3E0;
+  border: 2px solid #FFE0B2;
+}
+
+.card-story:active {
+  background: #FFE0B2;
+}
+
+/* Free play card — cool tint */
+.card-free {
+  background: #EDE7F6;
+  border: 2px solid #D1C4E9;
+}
+
+.card-free:active {
+  background: #D1C4E9;
+}
+
+/* ========================================================
    Responsive — Wider Screens
    ======================================================== */
 
@@ -478,6 +546,17 @@ body {
   .btn-back {
     width: 56px;
     height: 56px;
+  }
+
+  .mode-cards {
+    flex-direction: row;
+    max-width: 600px;
+  }
+
+  .mode-cards .card {
+    flex: 1;
+    min-height: 180px;
+    padding: 2rem 1.5rem;
   }
 }
 
