@@ -1,10 +1,11 @@
 // Совёнок — App Entry Point
 
 import { router } from './router.js';
+import { homeScreen } from './screens/home.js';
+import { state } from './state.js';
 
-router.add('/', (el) => {
-  el.innerHTML = '<div class="screen"><div style="font-size:5rem">🦉</div><h1 class="title">Совёнок</h1><p class="subtitle">Загрузка...</p></div>';
-});
+state.load();
+router.add('/', homeScreen);
 
 document.addEventListener('DOMContentLoaded', () => {
   router.init();
