@@ -42,6 +42,79 @@
         { "left": "🌙", "right": "🌙" },
         { "left": "☀️", "right": "☀️" }
       ]
+    },
+    {
+      "id": "a7", "type": "choice", "difficulty": 1,
+      "question": "Сколько синих кружков?",
+      "image": "🔵🔴🔵🔴🔵🔵",
+      "options": ["3", "4", "5"],
+      "answer": "4"
+    },
+    {
+      "id": "a8", "type": "choice", "difficulty": 1,
+      "question": "Какой предмет НЕ повторяется?",
+      "image": "🌙🌙🎈🎈⭐",
+      "options": ["🌙", "🎈", "⭐"],
+      "answer": "⭐"
+    },
+    {
+      "id": "a9", "type": "sequence", "difficulty": 1,
+      "question": "Запомни порядок и повтори:",
+      "image": "🍎🍌🍇",
+      "items": ["🍎", "🍌", "🍇"]
+    },
+    {
+      "id": "a10", "type": "choice", "difficulty": 1,
+      "question": "Чего больше: звёзд или сердечек?",
+      "image": "⭐❤️⭐❤️⭐⭐",
+      "options": ["⭐ Звёзд", "❤️ Сердечек"],
+      "answer": "⭐ Звёзд"
+    },
+    {
+      "id": "a11", "type": "match", "difficulty": 1,
+      "question": "Соедини одинаковые пары",
+      "pairs": [
+        { "left": "🍎", "right": "🍎" },
+        { "left": "🍌", "right": "🍌" },
+        { "left": "🍇", "right": "🍇" }
+      ]
+    },
+    {
+      "id": "a12", "type": "choice", "difficulty": 2,
+      "question": "Какая фигура пропущена?",
+      "image": "🔴🔵🟢🔴🔵❓",
+      "options": ["🔴", "🔵", "🟢", "🟡"],
+      "answer": "🟢"
+    },
+    {
+      "id": "a13", "type": "choice", "difficulty": 2,
+      "question": "Сколько всего предметов?",
+      "image": "🌟🌙⭐🌟⭐🌙🌟",
+      "options": ["5", "6", "7", "8"],
+      "answer": "7"
+    },
+    {
+      "id": "a14", "type": "sequence", "difficulty": 2,
+      "question": "Запомни порядок и повтори:",
+      "image": "⭐🌙🔵🔴",
+      "items": ["⭐", "🌙", "🔵", "🔴"]
+    },
+    {
+      "id": "a15", "type": "choice", "difficulty": 2,
+      "question": "Какой предмет встречается чаще всего?",
+      "image": "🍎🍌🍎🍇🍎🍌",
+      "options": ["🍎", "🍌", "🍇"],
+      "answer": "🍎"
+    },
+    {
+      "id": "a16", "type": "match", "difficulty": 2,
+      "question": "Соедини одинаковые пары",
+      "pairs": [
+        { "left": "🐱", "right": "🐱" },
+        { "left": "🐶", "right": "🐶" },
+        { "left": "🐰", "right": "🐰" },
+        { "left": "🐸", "right": "🐸" }
+      ]
     }
   ]
 }
