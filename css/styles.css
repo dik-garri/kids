@@ -968,6 +968,166 @@ body {
 }
 
 /* ========================================================
+   Story Mode — Adventure Map & Owl Dialogues
+   ======================================================== */
+
+/* Story screen layout */
+.story {
+  justify-content: flex-start;
+  padding-top: var(--padding);
+  gap: var(--gap);
+}
+
+/* Story header — top bar with back button and stars */
+.story-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 var(--padding);
+}
+
+/* Override btn-back position inside story-header (not absolute) */
+.story-header .btn-back {
+  position: static;
+}
+
+/* Story map — vertical chain of points */
+.story-map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: var(--padding) 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+}
+
+/* Individual point container */
+.story-point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Point dot — circular node on the map */
+.story-dot {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-round);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  border: 3px solid #E0E0E0;
+  background: #F5F5F5;
+  box-shadow: 0 2px 8px var(--color-shadow);
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-normal),
+    background-color var(--transition-normal);
+}
+
+/* Done point — green */
+.story-point.done .story-dot {
+  border-color: var(--color-success);
+  background: var(--color-success-light);
+}
+
+/* Current point — pulsing, interactive */
+.story-point.current .story-dot {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  cursor: pointer;
+  animation: pulse 1.5s ease-in-out infinite;
+  box-shadow:
+    0 0 0 4px rgba(255, 152, 0, 0.2),
+    0 2px 8px var(--color-shadow);
+}
+
+.story-point.current .story-dot:active {
+  transform: scale(0.95);
+}
+
+/* Locked point — gray, dimmed */
+.story-point.locked .story-dot {
+  background: #EEEEEE;
+  border-color: #E0E0E0;
+  opacity: 0.5;
+}
+
+/* Connecting line between points */
+.story-line {
+  width: 3px;
+  height: 30px;
+  background: #E0E0E0;
+  margin: 0 auto;
+}
+
+/* Done connector — green */
+.story-point.done .story-line {
+  background: var(--color-success);
+}
+
+/* --- Story Dialogue Screen --- */
+.story-dialogue {
+  gap: var(--gap-lg);
+  text-align: center;
+}
+
+/* Large owl for dialogue */
+.owl-big {
+  font-size: clamp(4rem, 12vmin, 6rem);
+  line-height: 1;
+  animation: bounce 0.6s ease both;
+}
+
+/* Speech bubble */
+.dialogue-bubble {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  box-shadow:
+    0 4px 16px var(--color-shadow),
+    0 1px 4px var(--color-shadow);
+  max-width: 300px;
+  position: relative;
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+/* Speech bubble tail (triangle pointing up toward owl) */
+.dialogue-bubble::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid var(--color-surface);
+}
+
+/* Story badge — chapter indicator during tasks */
+.story-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.75rem;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-small);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ========================================================
    Responsive — Wider Screens
    ======================================================== */
 
