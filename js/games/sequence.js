@@ -10,6 +10,7 @@ export function renderSequence(el, task, onAnswer) {
     el.innerHTML = `
       <div class="game sequence">
         <div class="game-question">${task.question}</div>
+        ${task.image ? `<div class="game-image">${task.image}</div>` : ''}
         <div class="sequence-selected">
           ${selected.map(s => `<span class="seq-item done">${s}</span>`).join('')}
           ${Array(task.items.length - selected.length).fill('<span class="seq-item empty">?</span>').join('')}

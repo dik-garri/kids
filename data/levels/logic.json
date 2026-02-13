@@ -8,7 +8,8 @@
     },
     {
       "id": "lg2", "type": "choice", "difficulty": 1,
-      "question": "Продолжи ряд: 🔴🔵🔴🔵🔴❓",
+      "question": "Продолжи ряд:",
+      "image": "🔴🔵🔴🔵🔴❓",
       "options": ["🔴", "🔵", "🟢"],
       "answer": "🔵"
     },
@@ -25,7 +26,8 @@
     },
     {
       "id": "lg5", "type": "choice", "difficulty": 2,
-      "question": "Продолжи ряд: ⭐⭐🌙⭐⭐🌙⭐⭐❓",
+      "question": "Продолжи ряд:",
+      "image": "⭐⭐🌙⭐⭐🌙⭐⭐❓",
       "options": ["⭐", "🌙", "☀️", "🌟"],
       "answer": "🌙"
     },

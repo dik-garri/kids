@@ -15,6 +15,7 @@ export function renderDragDrop(el, task, onAnswer) {
     el.innerHTML = `
       <div class="game dragdrop">
         <div class="game-question">${task.question}</div>
+        ${task.image ? `<div class="game-image">${task.image}</div>` : ''}
         <div class="drop-slots">
           ${slots.map((s, i) => `
             <div class="drop-slot ${s !== null ? 'filled' : ''}" data-slot="${i}">

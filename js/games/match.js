@@ -11,6 +11,7 @@ export function renderMatch(el, task, onAnswer) {
     el.innerHTML = `
       <div class="game match">
         <div class="game-question">${task.question}</div>
+        ${task.image ? `<div class="game-image">${task.image}</div>` : ''}
         <div class="match-columns">
           <div class="match-col match-left">
             ${task.pairs.map((p, i) => `
