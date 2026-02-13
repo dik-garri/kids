@@ -1,0 +1,9 @@
+{
+  "topics": [
+    { "id": "math", "title": "Цифры и счёт", "icon": "🔢", "color": "#FFB74D" },
+    { "id": "literacy", "title": "Буквы и слова", "icon": "📖", "color": "#81C784" },
+    { "id": "logic", "title": "Логика", "icon": "🧩", "color": "#64B5F6" },
+    { "id": "world", "title": "Мир вокруг", "icon": "🌍", "color": "#BA68C8" },
+    { "id": "attention", "title": "Внимание", "icon": "👀", "color": "#FF8A65" }
+  ]
+}
