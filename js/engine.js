@@ -1,8 +1,10 @@
 import { state } from './state.js';
 import { renderChoice } from './games/choice.js';
+import { renderSequence } from './games/sequence.js';
 
 const renderers = {
   choice: renderChoice,
+  sequence: renderSequence,
 };
 
 let levelCache = {};

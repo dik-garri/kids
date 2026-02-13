@@ -59,6 +59,16 @@
       "question": "5 + 5 = ?",
       "options": ["8", "9", "10", "11"],
       "answer": "10"
+    },
+    {
+      "id": "m11", "type": "sequence", "difficulty": 1,
+      "question": "Расставь цифры по порядку",
+      "items": ["1", "2", "3"]
+    },
+    {
+      "id": "m12", "type": "sequence", "difficulty": 2,
+      "question": "Расставь числа от меньшего к большему",
+      "items": ["3", "5", "7", "9"]
     }
   ]
 }
