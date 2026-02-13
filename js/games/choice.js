@@ -2,7 +2,7 @@ import { sounds } from '../sounds.js';
 import { speech } from '../speech.js';
 
 export function renderChoice(el, task, onAnswer) {
-  speech.speak(task.question);
+  speech.speakTask(task.id, task.question);
 
   el.innerHTML = `
     <div class="game choice">

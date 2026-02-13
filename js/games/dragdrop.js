@@ -2,7 +2,7 @@ import { sounds } from '../sounds.js';
 import { speech } from '../speech.js';
 
 export function renderDragDrop(el, task, onAnswer) {
-  speech.speak(task.question);
+  speech.speakTask(task.id, task.question);
 
   const shuffled = [...task.items].sort(() => Math.random() - 0.5);
   const slots = new Array(task.slots).fill(null);

@@ -1,7 +1,7 @@
 import { speech } from '../speech.js';
 
 export function renderSequence(el, task, onAnswer) {
-  speech.speak(task.question);
+  speech.speakTask(task.id, task.question);
 
   const shuffled = [...task.items].sort(() => Math.random() - 0.5);
   const selected = [];

@@ -1,7 +1,7 @@
 import { speech } from '../speech.js';
 
 export function renderMatch(el, task, onAnswer) {
-  speech.speak(task.question);
+  speech.speakTask(task.id, task.question);
 
   const rightShuffled = [...task.pairs].sort(() => Math.random() - 0.5).map(p => p.right);
   const matched = new Set(); // indices of matched left items
