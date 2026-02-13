@@ -1,0 +1,53 @@
+{
+  "tasks": [
+    {
+      "id": "lg1", "type": "choice", "difficulty": 1,
+      "question": "Что лишнее?",
+      "options": ["🍎", "🍐", "🚗", "🍌"],
+      "answer": "🚗"
+    },
+    {
+      "id": "lg2", "type": "choice", "difficulty": 1,
+      "question": "Продолжи ряд: 🔴🔵🔴🔵🔴❓",
+      "options": ["🔴", "🔵", "🟢"],
+      "answer": "🔵"
+    },
+    {
+      "id": "lg3", "type": "choice", "difficulty": 1,
+      "question": "Что лишнее?",
+      "options": ["🐱", "🐶", "🐟", "🪑"],
+      "answer": "🪑"
+    },
+    {
+      "id": "lg4", "type": "sequence", "difficulty": 1,
+      "question": "Расставь по порядку: от маленького к большому",
+      "items": ["🐜", "🐱", "🐘"]
+    },
+    {
+      "id": "lg5", "type": "choice", "difficulty": 2,
+      "question": "Продолжи ряд: ⭐⭐🌙⭐⭐🌙⭐⭐❓",
+      "options": ["⭐", "🌙", "☀️", "🌟"],
+      "answer": "🌙"
+    },
+    {
+      "id": "lg6", "type": "choice", "difficulty": 2,
+      "question": "Что лишнее?",
+      "options": ["Январь", "Февраль", "Среда", "Март"],
+      "answer": "Среда"
+    },
+    {
+      "id": "lg7", "type": "sequence", "difficulty": 2,
+      "question": "Что было сначала, а что потом?",
+      "items": ["Яйцо", "Цыплёнок", "Курица"]
+    },
+    {
+      "id": "lg8", "type": "match", "difficulty": 2,
+      "question": "Соедини противоположности",
+      "pairs": [
+        { "left": "Большой", "right": "Маленький" },
+        { "left": "Горячий", "right": "Холодный" },
+        { "left": "Быстрый", "right": "Медленный" }
+      ]
+    }
+  ]
+}

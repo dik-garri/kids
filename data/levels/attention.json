@@ -1,0 +1,42 @@
+{
+  "tasks": [
+    {
+      "id": "a1", "type": "choice", "difficulty": 1,
+      "question": "Какой предмет НЕ повторяется? 🍎🍎🌟🍐🍐",
+      "options": ["🍎", "🌟", "🍐"],
+      "answer": "🌟"
+    },
+    {
+      "id": "a2", "type": "choice", "difficulty": 1,
+      "question": "Сколько кружков? 🔴🔵🔴🔵🔴",
+      "options": ["3", "4", "5"],
+      "answer": "5"
+    },
+    {
+      "id": "a3", "type": "choice", "difficulty": 1,
+      "question": "Сколько красных кружков? 🔴🔵🔴🔵🔴",
+      "options": ["2", "3", "4"],
+      "answer": "3"
+    },
+    {
+      "id": "a4", "type": "sequence", "difficulty": 1,
+      "question": "Запомни порядок и повтори: 🐱🐶🐰",
+      "items": ["🐱", "🐶", "🐰"]
+    },
+    {
+      "id": "a5", "type": "choice", "difficulty": 2,
+      "question": "Какая фигура пропущена? ⬜🔺⬜🔺⬜❓",
+      "options": ["⬜", "🔺", "🔵", "⭐"],
+      "answer": "🔺"
+    },
+    {
+      "id": "a6", "type": "match", "difficulty": 2,
+      "question": "Соедини одинаковые пары",
+      "pairs": [
+        { "left": "🌟", "right": "🌟" },
+        { "left": "🌙", "right": "🌙" },
+        { "left": "☀️", "right": "☀️" }
+      ]
+    }
+  ]
+}
