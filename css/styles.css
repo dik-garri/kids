@@ -442,6 +442,24 @@ body {
   background: var(--color-primary-light);
 }
 
+/* Reset progress button — small, subtle, pinned to bottom */
+.btn-reset {
+  background: none;
+  border: none;
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-light);
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  margin-top: auto;
+  transition: opacity var(--transition-normal);
+}
+
+.btn-reset:active {
+  opacity: 1;
+}
+
 /* Disabled play button */
 .btn-play:disabled {
   opacity: 0.5;

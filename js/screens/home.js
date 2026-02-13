@@ -22,6 +22,7 @@ export function homeScreen(el) {
       <button class="btn btn-play" id="btn-play" ${age === 0 ? 'disabled' : ''}>
         Играть!
       </button>
+      <button class="btn-reset" id="btn-reset">Начать заново</button>
     </div>
   `;
 
@@ -37,5 +38,10 @@ export function homeScreen(el) {
 
   el.querySelector('#btn-play').addEventListener('click', () => {
     router.navigate('/mode');
+  });
+
+  el.querySelector('#btn-reset').addEventListener('click', () => {
+    state.reset();
+    homeScreen(el);
   });
 }
