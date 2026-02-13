@@ -7,6 +7,7 @@ import { topicsScreen } from './screens/topics.js';
 import { playScreen } from './screens/play.js';
 import { storyScreen } from './screens/story.js';
 import { state } from './state.js';
+import './sounds.js'; // registers audio unlock listeners for mobile
 
 state.load();
 router.add('/', homeScreen);

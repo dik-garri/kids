@@ -1,6 +1,7 @@
 import { state } from './state.js';
 
 let ctx = null;
+let unlocked = false;
 
 function getContext() {
   if (!ctx) {
@@ -9,9 +10,30 @@ function getContext() {
   return ctx;
 }
 
+// iOS/Android require AudioContext.resume() after a user gesture
+function unlock() {
+  if (unlocked) return;
+  const c = getContext();
+  if (c.state === 'suspended') {
+    c.resume();
+  }
+  // Also unlock SpeechSynthesis on iOS with an empty utterance
+  if (typeof speechSynthesis !== 'undefined') {
+    const empty = new SpeechSynthesisUtterance('');
+    speechSynthesis.speak(empty);
+  }
+  unlocked = true;
+}
+
+// Listen for first user interaction to unlock audio
+['touchstart', 'touchend', 'click'].forEach(evt => {
+  document.addEventListener(evt, unlock, { once: false, capture: true });
+});
+
 function playTone(frequency, duration, type = 'sine') {
   if (state.get().muted) return;
   const c = getContext();
+  if (c.state === 'suspended') c.resume();
   const osc = c.createOscillator();
   const gain = c.createGain();
   osc.type = type;
