@@ -775,6 +775,7 @@ body {
   background: #F5F5F5;
   border-color: #E0E0E0;
   border-style: dashed;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
   color: #BDBDBD;
 }
 
@@ -1034,6 +1035,34 @@ body {
 
 .drag-item:disabled:active {
   transform: none;
+}
+
+/* --- Drag hover & clone styles (shared by sequence + dragdrop) --- */
+.drop-hover,
+.seq-item.empty.drop-hover {
+  border-color: var(--color-primary) !important;
+  background: var(--color-primary-light) !important;
+  transform: scale(1.1);
+}
+
+.drop-slot.drop-hover {
+  border-color: var(--color-primary) !important;
+  background: var(--color-primary-light) !important;
+  transform: scale(1.1);
+}
+
+.drag-clone {
+  border-radius: var(--radius-small);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+.dragging {
+  opacity: 0.4 !important;
+}
+
+.drag-source.used {
+  opacity: 0.3;
+  cursor: default;
 }
 
 /* ========================================================

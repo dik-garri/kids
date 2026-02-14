@@ -6,12 +6,10 @@ export function renderDragDrop(el, task, onAnswer) {
 
   const shuffled = [...task.items].sort(() => Math.random() - 0.5);
   const slots = new Array(task.slots).fill(null);
-  let selectedItem = null; // index in shuffled
+  let selectedItem = null;
   let answered = false;
 
   function render() {
-    const allFilled = slots.every(s => s !== null);
-
     el.innerHTML = `
       <div class="game dragdrop">
         <div class="game-question">${task.question}</div>
@@ -25,8 +23,6 @@ export function renderDragDrop(el, task, onAnswer) {
         </div>
         <div class="drag-items">
           ${shuffled.map((item, i) => {
-            const used = slots.includes(item) && slots.indexOf(item) !== -1
-              && countInSlots(item) >= countInShuffledUpTo(item, i);
             const isUsed = isItemUsed(i);
             return `<button class="btn drag-item ${isUsed ? 'used' : ''} ${selectedItem === i ? 'selected' : ''}"
               data-index="${i}" ${isUsed ? 'disabled' : ''}>${item}</button>`;
@@ -36,55 +32,15 @@ export function renderDragDrop(el, task, onAnswer) {
     `;
 
     if (answered) return;
-
-    // Tap on item to select
-    el.querySelectorAll('.drag-item:not([disabled])').forEach(btn => {
-      btn.addEventListener('click', () => {
-        selectedItem = Number(btn.dataset.index);
-        render();
-      });
-
-      // Touch drag support
-      btn.addEventListener('touchstart', handleTouchStart, { passive: false });
-    });
-
-    // Tap on slot to place selected item or remove existing
-    el.querySelectorAll('.drop-slot').forEach(slot => {
-      slot.addEventListener('click', () => {
-        if (answered) return;
-        const slotIdx = Number(slot.dataset.slot);
-
-        if (slots[slotIdx] !== null) {
-          // Remove item from slot
-          slots[slotIdx] = null;
-          selectedItem = null;
-          render();
-          return;
-        }
-
-        if (selectedItem !== null) {
-          slots[slotIdx] = shuffled[selectedItem];
-          selectedItem = null;
-          render();
-
-          // Check if all slots filled
-          if (slots.every(s => s !== null)) {
-            checkAnswer();
-          }
-        }
-      });
-    });
+    bindEvents();
   }
 
-  // Track which shuffled indices have been placed in slots
   function isItemUsed(shuffledIndex) {
     const item = shuffled[shuffledIndex];
-    // Count how many times this item value appears in shuffled up to and including this index
     let countBefore = 0;
     for (let i = 0; i <= shuffledIndex; i++) {
       if (shuffled[i] === item) countBefore++;
     }
-    // Count how many times this item value is in slots
     let countInSlotsVal = 0;
     for (let i = 0; i < slots.length; i++) {
       if (slots[i] === item) countInSlotsVal++;
@@ -92,16 +48,17 @@ export function renderDragDrop(el, task, onAnswer) {
     return countBefore <= countInSlotsVal;
   }
 
-  function countInSlots(item) {
-    return slots.filter(s => s === item).length;
-  }
+  function placeInSlot(slotIdx, itemIndex) {
+    if (slots[slotIdx] !== null) return false;
+    slots[slotIdx] = shuffled[itemIndex];
+    sounds.click();
+    selectedItem = null;
+    render();
 
-  function countInShuffledUpTo(item, index) {
-    let count = 0;
-    for (let i = 0; i <= index; i++) {
-      if (shuffled[i] === item) count++;
+    if (slots.every(s => s !== null)) {
+      checkAnswer();
     }
-    return count;
+    return true;
   }
 
   function checkAnswer() {
@@ -112,7 +69,6 @@ export function renderDragDrop(el, task, onAnswer) {
       sounds.correct();
     } else {
       sounds.wrong();
-      // Allow retry after a delay — reset slots
       setTimeout(() => {
         answered = false;
         for (let i = 0; i < slots.length; i++) slots[i] = null;
@@ -124,68 +80,123 @@ export function renderDragDrop(el, task, onAnswer) {
     setTimeout(() => onAnswer(correct), correct ? 500 : 1000);
   }
 
-  // --- Touch drag support ---
-  function handleTouchStart(e) {
-    if (answered) return;
-    e.preventDefault();
+  function bindEvents() {
+    // Drag items — tap to select, drag to place
+    el.querySelectorAll('.drag-item:not([disabled])').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedItem = Number(btn.dataset.index);
+        render();
+      });
 
-    const btn = e.currentTarget;
+      // Touch drag
+      btn.addEventListener('touchstart', (e) => {
+        if (answered) return;
+        e.preventDefault();
+        startDrag(btn, e.touches[0].clientX, e.touches[0].clientY, 'touch');
+      }, { passive: false });
+
+      // Mouse drag
+      btn.addEventListener('mousedown', (e) => {
+        if (answered) return;
+        e.preventDefault();
+        startDrag(btn, e.clientX, e.clientY, 'mouse');
+      });
+    });
+
+    // Slots — tap to place selected or remove existing
+    el.querySelectorAll('.drop-slot').forEach(slot => {
+      slot.addEventListener('click', () => {
+        if (answered) return;
+        const slotIdx = Number(slot.dataset.slot);
+
+        if (slots[slotIdx] !== null) {
+          slots[slotIdx] = null;
+          selectedItem = null;
+          render();
+          return;
+        }
+
+        if (selectedItem !== null) {
+          placeInSlot(slotIdx, selectedItem);
+        }
+      });
+    });
+  }
+
+  function startDrag(btn, startX, startY, mode) {
     const index = Number(btn.dataset.index);
-    const touch = e.touches[0];
     const clone = btn.cloneNode(true);
-
     clone.classList.add('drag-clone');
-    clone.style.position = 'fixed';
-    clone.style.zIndex = '1000';
-    clone.style.pointerEvents = 'none';
-    clone.style.width = btn.offsetWidth + 'px';
-    clone.style.height = btn.offsetHeight + 'px';
-    clone.style.left = (touch.clientX - btn.offsetWidth / 2) + 'px';
-    clone.style.top = (touch.clientY - btn.offsetHeight / 2) + 'px';
-    clone.style.opacity = '0.9';
-    clone.style.transform = 'scale(1.15)';
-    clone.style.transition = 'none';
+    clone.style.cssText = `
+      position: fixed; z-index: 1000; pointer-events: none;
+      width: ${btn.offsetWidth}px; height: ${btn.offsetHeight}px;
+      left: ${startX - btn.offsetWidth / 2}px;
+      top: ${startY - btn.offsetHeight / 2}px;
+      opacity: 0.9; transform: scale(1.15); transition: none;
+    `;
     document.body.appendChild(clone);
+    btn.classList.add('dragging');
 
     selectedItem = index;
     render();
 
-    function onTouchMove(ev) {
-      ev.preventDefault();
-      const t = ev.touches[0];
-      clone.style.left = (t.clientX - btn.offsetWidth / 2) + 'px';
-      clone.style.top = (t.clientY - btn.offsetHeight / 2) + 'px';
-    }
+    let lastHighlight = null;
 
-    function onTouchEnd(ev) {
-      document.removeEventListener('touchmove', onTouchMove);
-      document.removeEventListener('touchend', onTouchEnd);
-      clone.remove();
+    function moveClone(cx, cy) {
+      clone.style.left = (cx - btn.offsetWidth / 2) + 'px';
+      clone.style.top = (cy - btn.offsetHeight / 2) + 'px';
 
-      const t = ev.changedTouches[0];
-      const dropTarget = document.elementFromPoint(t.clientX, t.clientY);
-
-      if (dropTarget && dropTarget.classList.contains('drop-slot')) {
-        const slotIdx = Number(dropTarget.dataset.slot);
-        if (slots[slotIdx] === null) {
-          slots[slotIdx] = shuffled[index];
-          selectedItem = null;
-          render();
-
-          if (slots.every(s => s !== null)) {
-            checkAnswer();
-          }
-          return;
-        }
+      // Highlight empty slot under cursor
+      const target = document.elementFromPoint(cx, cy);
+      if (lastHighlight && lastHighlight !== target) {
+        lastHighlight.classList.remove('drop-hover');
       }
-
-      // If not dropped on a valid slot, deselect
-      selectedItem = null;
-      render();
+      if (target && target.classList.contains('drop-slot') && !target.classList.contains('filled')) {
+        target.classList.add('drop-hover');
+        lastHighlight = target;
+      } else {
+        lastHighlight = null;
+      }
     }
 
-    document.addEventListener('touchmove', onTouchMove, { passive: false });
-    document.addEventListener('touchend', onTouchEnd);
+    function endDrag(cx, cy) {
+      clone.remove();
+      if (lastHighlight) lastHighlight.classList.remove('drop-hover');
+
+      const target = document.elementFromPoint(cx, cy);
+      if (target && target.classList.contains('drop-slot') && !target.classList.contains('filled')) {
+        placeInSlot(Number(target.dataset.slot), index);
+      } else {
+        selectedItem = null;
+        render();
+      }
+    }
+
+    if (mode === 'touch') {
+      function onMove(ev) {
+        ev.preventDefault();
+        moveClone(ev.touches[0].clientX, ev.touches[0].clientY);
+      }
+      function onEnd(ev) {
+        document.removeEventListener('touchmove', onMove);
+        document.removeEventListener('touchend', onEnd);
+        const t = ev.changedTouches[0];
+        endDrag(t.clientX, t.clientY);
+      }
+      document.addEventListener('touchmove', onMove, { passive: false });
+      document.addEventListener('touchend', onEnd);
+    } else {
+      function onMove(ev) {
+        moveClone(ev.clientX, ev.clientY);
+      }
+      function onEnd(ev) {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onEnd);
+        endDrag(ev.clientX, ev.clientY);
+      }
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onEnd);
+    }
   }
 
   render();
