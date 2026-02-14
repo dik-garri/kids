@@ -67,8 +67,8 @@
       "id": "a10", "type": "choice", "difficulty": 1,
       "question": "Чего больше: звёзд или сердечек?",
       "image": "⭐❤️⭐❤️⭐⭐",
-      "options": ["⭐ Звёзд", "❤️ Сердечек"],
-      "answer": "⭐ Звёзд"
+      "options": ["⭐", "❤️"],
+      "answer": "⭐"
     },
     {
       "id": "a11", "type": "match", "difficulty": 1,

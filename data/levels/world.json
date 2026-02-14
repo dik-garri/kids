@@ -4,53 +4,53 @@
       "id": "w1", "type": "choice", "difficulty": 1,
       "question": "Когда идёт снег?",
       "image": "❄️",
-      "options": ["Летом", "Зимой", "Весной"],
-      "answer": "Зимой"
+      "options": ["☀️", "❄️", "🌸"],
+      "answer": "❄️"
     },
     {
       "id": "w2", "type": "choice", "difficulty": 1,
       "question": "Какого цвета солнце?",
       "image": "☀️",
-      "options": ["Синее", "Жёлтое", "Зелёное"],
-      "answer": "Жёлтое"
+      "options": ["🔵", "🟡", "🟢"],
+      "answer": "🟡"
     },
     {
       "id": "w3", "type": "choice", "difficulty": 1,
       "question": "Кто говорит МУ?",
       "image": "🐄",
-      "options": ["Кошка", "Собака", "Корова"],
-      "answer": "Корова"
+      "options": ["🐱", "🐶", "🐄"],
+      "answer": "🐄"
     },
     {
       "id": "w4", "type": "match", "difficulty": 1,
-      "question": "Соедини животное с его звуком",
+      "question": "Соедини животное с его едой",
       "pairs": [
-        { "left": "🐱", "right": "Мяу" },
-        { "left": "🐶", "right": "Гав" },
-        { "left": "🐸", "right": "Ква" }
+        { "left": "🐱", "right": "🐟" },
+        { "left": "🐶", "right": "🦴" },
+        { "left": "🐰", "right": "🥕" }
       ]
     },
     {
       "id": "w5", "type": "choice", "difficulty": 2,
       "question": "Кто тушит пожар?",
       "image": "🚒",
-      "options": ["Врач", "Пожарный", "Учитель", "Повар"],
-      "answer": "Пожарный"
+      "options": ["👨‍⚕️", "👨‍🚒", "👨‍🏫", "👨‍🍳"],
+      "answer": "👨‍🚒"
     },
     {
       "id": "w6", "type": "match", "difficulty": 2,
-      "question": "Соедини время года с картинкой",
+      "question": "Соедини картинки одного времени года",
       "pairs": [
-        { "left": "Зима", "right": "❄️" },
-        { "left": "Весна", "right": "🌸" },
-        { "left": "Лето", "right": "☀️" },
-        { "left": "Осень", "right": "🍂" }
+        { "left": "❄️", "right": "⛄" },
+        { "left": "🌸", "right": "🌷" },
+        { "left": "☀️", "right": "🏖️" },
+        { "left": "🍂", "right": "🍁" }
       ]
     },
     {
       "id": "w7", "type": "sequence", "difficulty": 2,
       "question": "Расставь времена года по порядку",
-      "items": ["Зима", "Весна", "Лето", "Осень"]
+      "items": ["❄️", "🌸", "☀️", "🍂"]
     },
     {
       "id": "w8", "type": "choice", "difficulty": 2,
@@ -62,30 +62,30 @@
       "id": "w9", "type": "choice", "difficulty": 1,
       "question": "Какого цвета трава?",
       "image": "🌿",
-      "options": ["Красная", "Зелёная", "Синяя"],
-      "answer": "Зелёная"
+      "options": ["🔴", "🟢", "🔵"],
+      "answer": "🟢"
     },
     {
       "id": "w10", "type": "choice", "difficulty": 1,
       "question": "Кто живёт в воде?",
       "image": "🌊",
-      "options": ["🐟 Рыба", "🐱 Кошка", "🐶 Собака"],
-      "answer": "🐟 Рыба"
+      "options": ["🐟", "🐱", "🐶"],
+      "answer": "🐟"
     },
     {
       "id": "w11", "type": "choice", "difficulty": 1,
       "question": "Что даёт корова?",
       "image": "🐄",
-      "options": ["Яйца", "Молоко", "Мёд"],
-      "answer": "Молоко"
+      "options": ["🥚", "🥛", "🍯"],
+      "answer": "🥛"
     },
     {
       "id": "w12", "type": "match", "difficulty": 1,
       "question": "Соедини животное с тем, где оно живёт",
       "pairs": [
-        { "left": "🐟 Рыба", "right": "Вода" },
-        { "left": "🐦 Птица", "right": "Гнездо" },
-        { "left": "🐻 Медведь", "right": "Берлога" }
+        { "left": "🐟", "right": "🌊" },
+        { "left": "🐦", "right": "🪹" },
+        { "left": "🐻", "right": "⛰️" }
       ]
     },
     {
@@ -99,38 +99,38 @@
       "id": "w14", "type": "choice", "difficulty": 2,
       "question": "Кто лечит людей?",
       "image": "🏥",
-      "options": ["Учитель", "Врач", "Строитель", "Водитель"],
-      "answer": "Врач"
+      "options": ["👨‍🏫", "👨‍⚕️", "👷", "🚗"],
+      "answer": "👨‍⚕️"
     },
     {
       "id": "w15", "type": "match", "difficulty": 2,
       "question": "Соедини профессию с инструментом",
       "pairs": [
-        { "left": "Врач", "right": "💉" },
-        { "left": "Повар", "right": "🍳" },
-        { "left": "Учитель", "right": "📚" },
-        { "left": "Художник", "right": "🎨" }
+        { "left": "👨‍⚕️", "right": "💉" },
+        { "left": "👨‍🍳", "right": "🍳" },
+        { "left": "👨‍🏫", "right": "📚" },
+        { "left": "👨‍🎨", "right": "🎨" }
       ]
     },
     {
       "id": "w16", "type": "choice", "difficulty": 2,
       "question": "Какой транспорт летает?",
       "image": "✈️",
-      "options": ["Автобус", "Самолёт", "Поезд", "Корабль"],
-      "answer": "Самолёт"
+      "options": ["🚌", "✈️", "🚂", "🚢"],
+      "answer": "✈️"
     },
     {
       "id": "w17", "type": "sequence", "difficulty": 2,
-      "question": "Расставь дни недели по порядку",
-      "items": ["Понедельник", "Вторник", "Среда", "Четверг"]
+      "question": "Расставь от медленного к быстрому",
+      "items": ["🐢", "🚶", "🚗", "🚀"]
     },
     {
       "id": "w18", "type": "match", "difficulty": 2,
-      "question": "Соедини животное с его детёнышем",
+      "question": "Соедини транспорт с дорогой",
       "pairs": [
-        { "left": "🐄 Корова", "right": "Телёнок" },
-        { "left": "🐑 Овца", "right": "Ягнёнок" },
-        { "left": "🐷 Свинья", "right": "Поросёнок" }
+        { "left": "🚗", "right": "🛣️" },
+        { "left": "✈️", "right": "☁️" },
+        { "left": "🚢", "right": "🌊" }
       ]
     }
   ]

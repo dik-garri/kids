@@ -34,21 +34,21 @@
     {
       "id": "lg6", "type": "choice", "difficulty": 2,
       "question": "Что лишнее?",
-      "options": ["Январь", "Февраль", "Среда", "Март"],
-      "answer": "Среда"
+      "options": ["🍦", "🍩", "🍪", "🚂"],
+      "answer": "🚂"
     },
     {
       "id": "lg7", "type": "sequence", "difficulty": 2,
       "question": "Что было сначала, а что потом?",
-      "items": ["Яйцо", "Цыплёнок", "Курица"]
+      "items": ["🥚", "🐥", "🐔"]
     },
     {
       "id": "lg8", "type": "match", "difficulty": 2,
       "question": "Соедини противоположности",
       "pairs": [
-        { "left": "Большой", "right": "Маленький" },
-        { "left": "Горячий", "right": "Холодный" },
-        { "left": "Быстрый", "right": "Медленный" }
+        { "left": "🐘", "right": "🐜" },
+        { "left": "🔥", "right": "❄️" },
+        { "left": "🐇", "right": "🐢" }
       ]
     },
     {
@@ -67,7 +67,7 @@
     {
       "id": "lg11", "type": "sequence", "difficulty": 1,
       "question": "Что было сначала, а что потом?",
-      "items": ["Семечко", "Росток", "Цветок"]
+      "items": ["🌰", "🌱", "🌸"]
     },
     {
       "id": "lg12", "type": "choice", "difficulty": 1,
@@ -77,11 +77,11 @@
     },
     {
       "id": "lg13", "type": "match", "difficulty": 1,
-      "question": "Соедини маму с детёнышем",
+      "question": "Соедини животное с его едой",
       "pairs": [
-        { "left": "🐱 Кошка", "right": "Котёнок" },
-        { "left": "🐶 Собака", "right": "Щенок" },
-        { "left": "🐴 Лошадь", "right": "Жеребёнок" }
+        { "left": "🐱", "right": "🐟" },
+        { "left": "🐶", "right": "🦴" },
+        { "left": "🐰", "right": "🥕" }
       ]
     },
     {
@@ -94,28 +94,28 @@
     {
       "id": "lg15", "type": "choice", "difficulty": 2,
       "question": "Что лишнее?",
-      "options": ["Ложка", "Вилка", "Тарелка", "Книга"],
-      "answer": "Книга"
+      "options": ["🥄", "🍴", "🍽️", "📖"],
+      "answer": "📖"
     },
     {
       "id": "lg16", "type": "sequence", "difficulty": 2,
       "question": "Расставь по порядку: от лёгкого к тяжёлому",
-      "items": ["Пёрышко", "Яблоко", "Арбуз", "Машина"]
+      "items": ["🪶", "🍎", "🍉", "🚗"]
     },
     {
       "id": "lg17", "type": "match", "difficulty": 2,
       "question": "Соедини противоположности",
       "pairs": [
-        { "left": "Высокий", "right": "Низкий" },
-        { "left": "Длинный", "right": "Короткий" },
-        { "left": "Тяжёлый", "right": "Лёгкий" },
-        { "left": "Старый", "right": "Новый" }
+        { "left": "☀️", "right": "🌙" },
+        { "left": "😊", "right": "😢" },
+        { "left": "⬆️", "right": "⬇️" },
+        { "left": "🔊", "right": "🔇" }
       ]
     },
     {
       "id": "lg18", "type": "sequence", "difficulty": 2,
       "question": "Что было сначала, а что потом?",
-      "items": ["Утро", "День", "Вечер", "Ночь"]
+      "items": ["🌅", "☀️", "🌆", "🌙"]
     }
   ]
 }
