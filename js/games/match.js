@@ -6,10 +6,9 @@ export function renderMatch(el, task, onAnswer) {
 
   const rightShuffled = [...task.pairs].sort(() => Math.random() - 0.5).map(p => p.right);
   const matched = new Set(); // indices of matched left items
-  // Store matched connections: { leftIdx, rightIdx }
-  const connections = [];
-  let selectedLeft = null;
-  let dragLine = null; // active drag line coords
+  const connections = []; // { leftIdx, rightIdx }
+  let selected = null; // { side: 'left'|'right', index }
+  let dragLine = null;
 
   function getCenter(btn, container) {
     const cr = container.getBoundingClientRect();
@@ -18,6 +17,10 @@ export function renderMatch(el, task, onAnswer) {
       x: br.left + br.width / 2 - cr.left,
       y: br.top + br.height / 2 - cr.top,
     };
+  }
+
+  function isRightMatched(rightIdx) {
+    return [...matched].some(mi => task.pairs[mi].right === rightShuffled[rightIdx]);
   }
 
   function render() {
@@ -30,15 +33,15 @@ export function renderMatch(el, task, onAnswer) {
           <div class="match-columns">
             <div class="match-col match-left">
               ${task.pairs.map((p, i) => `
-                <button class="btn match-item match-item-left ${matched.has(i) ? 'matched' : ''} ${selectedLeft === i ? 'selected' : ''}"
+                <button class="btn match-item match-item-left ${matched.has(i) ? 'matched' : ''} ${selected?.side === 'left' && selected.index === i ? 'selected' : ''}"
                   data-index="${i}" ${matched.has(i) ? 'disabled' : ''}>${p.left}</button>
               `).join('')}
             </div>
             <div class="match-col match-right">
               ${rightShuffled.map((item, i) => {
-                const isMatched = [...matched].some(mi => task.pairs[mi].right === item);
-                return `<button class="btn match-item match-item-right ${isMatched ? 'matched' : ''}"
-                  data-index="${i}" ${isMatched ? 'disabled' : ''}>${item}</button>`;
+                const im = isRightMatched(i);
+                return `<button class="btn match-item match-item-right ${im ? 'matched' : ''} ${selected?.side === 'right' && selected.index === i ? 'selected' : ''}"
+                  data-index="${i}" ${im ? 'disabled' : ''}>${item}</button>`;
               }).join('')}
             </div>
           </div>
@@ -60,7 +63,6 @@ export function renderMatch(el, task, onAnswer) {
     svg.setAttribute('height', ar.height);
     svg.innerHTML = '';
 
-    // Draw matched connections
     for (const conn of connections) {
       const leftBtn = el.querySelector(`.match-item-left[data-index="${conn.leftIdx}"]`);
       const rightBtn = el.querySelector(`.match-item-right[data-index="${conn.rightIdx}"]`);
@@ -68,7 +70,6 @@ export function renderMatch(el, task, onAnswer) {
 
       const from = getCenter(leftBtn, area);
       const to = getCenter(rightBtn, area);
-
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       line.setAttribute('x1', from.x);
       line.setAttribute('y1', from.y);
@@ -78,7 +79,6 @@ export function renderMatch(el, task, onAnswer) {
       svg.appendChild(line);
     }
 
-    // Draw active drag line
     if (dragLine) {
       const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       line.setAttribute('x1', dragLine.x1);
@@ -92,23 +92,23 @@ export function renderMatch(el, task, onAnswer) {
 
   function updateDragLine(x2, y2) {
     const svg = el.querySelector('.match-svg');
-    let line = svg?.querySelector('.drag-line');
+    const line = svg?.querySelector('.drag-line');
     if (line) {
       line.setAttribute('x2', x2);
       line.setAttribute('y2', y2);
     }
   }
 
-  function tryMatch(rightIdx) {
-    if (selectedLeft === null) return;
+  // Try to match: given a leftIdx and rightIdx, check if they form a pair
+  function tryMatch(leftIdx, rightIdx) {
     const rightItem = rightShuffled[rightIdx];
-    const leftPair = task.pairs[selectedLeft];
+    const leftPair = task.pairs[leftIdx];
 
     if (leftPair.right === rightItem) {
-      matched.add(selectedLeft);
-      connections.push({ leftIdx: selectedLeft, rightIdx });
+      matched.add(leftIdx);
+      connections.push({ leftIdx, rightIdx });
       sounds.correct();
-      selectedLeft = null;
+      selected = null;
       dragLine = null;
       render();
 
@@ -117,9 +117,8 @@ export function renderMatch(el, task, onAnswer) {
       }
     } else {
       sounds.wrong();
-      // Flash wrong
       const rightBtn = el.querySelector(`.match-item-right[data-index="${rightIdx}"]`);
-      const leftBtn = el.querySelector(`.match-item-left[data-index="${selectedLeft}"]`);
+      const leftBtn = el.querySelector(`.match-item-left[data-index="${leftIdx}"]`);
       if (rightBtn) rightBtn.classList.add('wrong');
       if (leftBtn) leftBtn.classList.add('wrong');
 
@@ -127,7 +126,7 @@ export function renderMatch(el, task, onAnswer) {
       drawLines();
 
       setTimeout(() => {
-        selectedLeft = null;
+        selected = null;
         render();
       }, 600);
     }
@@ -137,100 +136,121 @@ export function renderMatch(el, task, onAnswer) {
     const area = el.querySelector('.match-area');
     if (!area) return;
 
-    // Left column — click to select, or start drag
+    // --- Left column ---
     el.querySelectorAll('.match-item-left:not([disabled])').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        if (e.detail === -1) return; // ignore synthetic
-        selectedLeft = Number(btn.dataset.index);
-        dragLine = null;
-        render();
+      const idx = Number(btn.dataset.index);
+
+      // Click: select, or if right is already selected — try match
+      btn.addEventListener('click', () => {
+        if (selected?.side === 'right') {
+          tryMatch(idx, selected.index);
+        } else {
+          selected = { side: 'left', index: idx };
+          dragLine = null;
+          render();
+        }
       });
 
-      // Touch drag from left item
+      // Drag (touch + mouse)
       btn.addEventListener('touchstart', (e) => {
         e.preventDefault();
-        selectedLeft = Number(btn.dataset.index);
-        const from = getCenter(btn, area);
-        const touch = e.touches[0];
-        const ar = area.getBoundingClientRect();
-        dragLine = { x1: from.x, y1: from.y, x2: touch.clientX - ar.left, y2: touch.clientY - ar.top };
-
-        // Highlight selected
-        el.querySelectorAll('.match-item-left').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        drawLines();
-
-        function onMove(ev) {
-          ev.preventDefault();
-          const t = ev.touches[0];
-          dragLine.x2 = t.clientX - ar.left;
-          dragLine.y2 = t.clientY - ar.top;
-          updateDragLine(dragLine.x2, dragLine.y2);
-        }
-
-        function onEnd(ev) {
-          document.removeEventListener('touchmove', onMove);
-          document.removeEventListener('touchend', onEnd);
-
-          const t = ev.changedTouches[0];
-          const target = document.elementFromPoint(t.clientX, t.clientY);
-          if (target && target.classList.contains('match-item-right') && !target.disabled) {
-            tryMatch(Number(target.dataset.index));
-          } else {
-            dragLine = null;
-            selectedLeft = null;
-            render();
-          }
-        }
-
-        document.addEventListener('touchmove', onMove, { passive: false });
-        document.addEventListener('touchend', onEnd);
+        startDrag(btn, 'left', idx, e.touches[0].clientX, e.touches[0].clientY, 'touch', area);
       }, { passive: false });
 
-      // Mouse drag from left item
       btn.addEventListener('mousedown', (e) => {
         e.preventDefault();
-        selectedLeft = Number(btn.dataset.index);
-        const from = getCenter(btn, area);
-        const ar = area.getBoundingClientRect();
-        dragLine = { x1: from.x, y1: from.y, x2: e.clientX - ar.left, y2: e.clientY - ar.top };
-
-        el.querySelectorAll('.match-item-left').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        drawLines();
-
-        function onMove(ev) {
-          dragLine.x2 = ev.clientX - ar.left;
-          dragLine.y2 = ev.clientY - ar.top;
-          updateDragLine(dragLine.x2, dragLine.y2);
-        }
-
-        function onUp(ev) {
-          document.removeEventListener('mousemove', onMove);
-          document.removeEventListener('mouseup', onUp);
-
-          const target = document.elementFromPoint(ev.clientX, ev.clientY);
-          if (target && target.classList.contains('match-item-right') && !target.disabled) {
-            tryMatch(Number(target.dataset.index));
-          } else {
-            dragLine = null;
-            selectedLeft = null;
-            render();
-          }
-        }
-
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
+        startDrag(btn, 'left', idx, e.clientX, e.clientY, 'mouse', area);
       });
     });
 
-    // Right column — click to match (tap-based fallback)
+    // --- Right column ---
     el.querySelectorAll('.match-item-right:not([disabled])').forEach(btn => {
+      const idx = Number(btn.dataset.index);
+
+      // Click: select, or if left is already selected — try match
       btn.addEventListener('click', () => {
-        if (selectedLeft === null) return;
-        tryMatch(Number(btn.dataset.index));
+        if (selected?.side === 'left') {
+          tryMatch(selected.index, idx);
+        } else {
+          selected = { side: 'right', index: idx };
+          dragLine = null;
+          render();
+        }
+      });
+
+      // Drag (touch + mouse)
+      btn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        startDrag(btn, 'right', idx, e.touches[0].clientX, e.touches[0].clientY, 'touch', area);
+      }, { passive: false });
+
+      btn.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startDrag(btn, 'right', idx, e.clientX, e.clientY, 'mouse', area);
       });
     });
+  }
+
+  function startDrag(btn, side, idx, startX, startY, mode, area) {
+    selected = { side, index: idx };
+    const from = getCenter(btn, area);
+    const ar = area.getBoundingClientRect();
+    dragLine = { x1: from.x, y1: from.y, x2: startX - ar.left, y2: startY - ar.top };
+
+    // Highlight
+    el.querySelectorAll('.match-item').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    drawLines();
+
+    const oppositeSide = side === 'left' ? 'match-item-right' : 'match-item-left';
+
+    function moveHandler(cx, cy) {
+      dragLine.x2 = cx - ar.left;
+      dragLine.y2 = cy - ar.top;
+      updateDragLine(dragLine.x2, dragLine.y2);
+    }
+
+    function endHandler(cx, cy) {
+      const target = document.elementFromPoint(cx, cy);
+      if (target && target.classList.contains(oppositeSide) && !target.disabled) {
+        const targetIdx = Number(target.dataset.index);
+        if (side === 'left') {
+          tryMatch(idx, targetIdx);
+        } else {
+          tryMatch(targetIdx, idx);
+        }
+      } else {
+        dragLine = null;
+        selected = null;
+        render();
+      }
+    }
+
+    if (mode === 'touch') {
+      function onMove(ev) {
+        ev.preventDefault();
+        moveHandler(ev.touches[0].clientX, ev.touches[0].clientY);
+      }
+      function onEnd(ev) {
+        document.removeEventListener('touchmove', onMove);
+        document.removeEventListener('touchend', onEnd);
+        const t = ev.changedTouches[0];
+        endHandler(t.clientX, t.clientY);
+      }
+      document.addEventListener('touchmove', onMove, { passive: false });
+      document.addEventListener('touchend', onEnd);
+    } else {
+      function onMove(ev) {
+        moveHandler(ev.clientX, ev.clientY);
+      }
+      function onEnd(ev) {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onEnd);
+        endHandler(ev.clientX, ev.clientY);
+      }
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onEnd);
+    }
   }
 
   render();
