@@ -85,3 +85,7 @@ Add a new task by appending an object to any `data/levels/*.json` file:
 Supported types: `choice`, `sequence`, `drag-drop`, `match`. No code changes needed.
 
 To add voice-over for a new task, generate a WAV file named `{task-id}.wav` in `assets/speech/`. If no WAV file exists, the app falls back to Web Speech API.
+
+---
+
+[All projects →](https://dik-garri.github.io/garry/)
